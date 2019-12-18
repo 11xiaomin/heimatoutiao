@@ -17,7 +17,7 @@
           <el-checkbox v-model='loginForm.check'>我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button @click="sbumitButton" type="primary" style="width:100%">登录</el-button>
+          <el-button @click="sbumitLogin" type="primary" style="width:100%">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -43,19 +43,19 @@ export default {
             callback(new Error('你输入的格式不正确,请重新输入'))
           }
         } } ]
-      },
-      methods: {
-        sbumitButton () {
-          this.$refs.myForm.validate(function (isOK) {
-            // console.log("")
-            if (isOK) {
-              // alert('校验成功')
-              console.log('前端校验成功,发送用户名和密码到后台去校验')
-            }
-          })
-          // console.log("")
-        }
       }
+    }
+  },
+  methods: {
+    sbumitLogin () {
+      this.$refs.myForm.validate(function (isOK) {
+        // console.log("")
+        if (isOK) {
+          alert('前端校验成功')
+          // console.log('前端校验成功,发送用户名和密码到后台去校验')
+        }
+      })
+      // console.log("")
     }
   }
 }
