@@ -51,8 +51,19 @@ export default {
       this.$refs.myForm.validate(function (isOK) {
         // console.log("")
         if (isOK) {
-          alert('前端校验成功')
-          // console.log('前端校验成功,发送用户名和密码到后台去校验')
+          this.axios({
+            url: '/authorizations',
+            method: 'POST',
+            data: this.loginForm
+          }).then(result => {
+            window.localStorage.setItem('use-token', result.data.data.token)
+            this.$router.push('/home')
+          }).catch(() => {
+            this.$message({
+              message: '您的手机号或者验证码不正确',
+              type: 'warning'
+            })
+          })
         }
       })
       // console.log("")
