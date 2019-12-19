@@ -48,14 +48,12 @@ export default {
   },
   methods: {
     sbumitLogin () {
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate((isOK) => {
         // console.log("")
         if (isOK) {
-          this.axios({
-            url: '/authorizations',
-            method: 'POST',
-            data: this.loginForm
-          }).then(result => {
+          this.$axios.post(
+            '/authorizations', this.loginForm
+          ).then(result => {
             window.localStorage.setItem('use-token', result.data.data.token)
             this.$router.push('/home')
           }).catch(() => {
