@@ -4,23 +4,23 @@
     <div class="title">
       <img src="../../assets/img/logo_admin.png" alt />
     </div>
-    <el-menu style="width:231px" background-color="#353b4e" text-color="#adafb5" active-text-color="#ffd04b">
+    <el-menu router style="width:232px" background-color="#353b4e" text-color="#adafb5" active-text-color="#ffd04b" classs='layout'>
       <!-- 导航组件 -->
-      <el-menu-item>首页</el-menu-item>
+      <el-menu-item index='/home'>首页</el-menu-item>
       <!-- 二级导航 -->
-      <el-submenu index>
+      <el-submenu index='a'>
         <span slot="title">内容管理</span>
-        <el-menu-item>发布文章</el-menu-item>
-        <el-menu-item>内容列表</el-menu-item>
-        <el-menu-item>评论列表</el-menu-item>
-        <el-menu-item>素材管理</el-menu-item>
+        <el-menu-item index='/home/publish'>发布文章</el-menu-item>
+        <el-menu-item index='/home/articles'>内容列表</el-menu-item>
+        <el-menu-item index='/home/comment'>评论列表</el-menu-item>
+        <el-menu-item index='/home/material'>素材管理</el-menu-item>
       </el-submenu>
-      <el-submenu index>
+      <el-submenu index='b'>
         <span slot="title">粉丝管理</span>
-        <el-menu-item>图文数据</el-menu-item>
-        <el-menu-item>粉丝概况</el-menu-item>
-        <el-menu-item>粉丝画像</el-menu-item>
-        <el-menu-item>粉丝列表</el-menu-item>
+        <el-menu-item index='/home/fans'>图文数据</el-menu-item>
+        <el-menu-item index='/home/account'>粉丝概况</el-menu-item>
+        <el-menu-item index='/home/fanspic'>粉丝画像</el-menu-item>
+        <el-menu-item index='/home/fanslist'>粉丝列表</el-menu-item>
       </el-submenu>
       <el-menu-item>账户信息</el-menu-item>
     </el-menu>
@@ -33,14 +33,15 @@ export default {}
 
 <style lang="less" scoped>
 .layout-aside {
-  width: 230px;
-  background-color: #323745;
+  width: 229px;
+  // height: 100%;
+  // background-color: #323745;
   .title {
     background-color:  #2e2f32;
     text-align: center;
-    padding:10px 0;
+    padding:10px;
       img {
-        height: 35px;
+        height: 30px;
     }
   }
 }
