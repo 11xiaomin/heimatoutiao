@@ -31,15 +31,9 @@ export default {
     }
   },
   created () {
-    // 获取token值（令牌信息）
-    let token = window.localStorage.getItem('use-token')
     // 查询数据，首先要用axios，用this.$axios()
     this.$axios({
-      url: '/user/profile',
-      // headers参数
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      url: '/user/profile'
     }).then(result => {
       // console.log(result.data)
       this.userInfo = result.data.data // 获取用户个人信息
