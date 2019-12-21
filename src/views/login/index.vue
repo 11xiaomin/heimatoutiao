@@ -54,7 +54,7 @@ export default {
           this.$axios.post(
             '/authorizations', this.loginForm
           ).then(result => {
-            window.localStorage.setItem('use-token', result.data.data.token)
+            window.localStorage.setItem('use-token', result.data.token)
             this.$router.push('/home')
           }).catch(() => {
             this.$message({
