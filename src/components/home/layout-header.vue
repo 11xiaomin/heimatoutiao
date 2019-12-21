@@ -49,7 +49,7 @@ export default {
     handle (command) {
       // alert(1)
       if (command === 'tc') {
-        window.localStorage.removeItem('user-token')
+        window.localStorage.removeItem('use-token')
         this.$router.push('/login')
       } else if (command === 'git') {
         window.location.href = 'http://baidu.com'
