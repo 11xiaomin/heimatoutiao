@@ -1,6 +1,6 @@
 import layoutAside from './home/layout-aside'
 import layoutHeader from './home/layout-header'
-import BreadCrumb from './common/bread-crumb'
+import BreadCrumb from './comment/bread-crumb'
 // 所有自定义组件的插件
 export default {
   install (Vue) {

@@ -1,6 +1,6 @@
 <template>
   <!--左侧导航 -->
-  <div class="layout-aside">
+  <div class="layout-aside" background-color="#353b4e">
     <div class="title">
       <img src="../../assets/img/logo_admin.png" alt />
     </div>
@@ -34,8 +34,6 @@ export default {}
 <style lang="less" scoped>
 .layout-aside {
   width: 229px;
-  // height: 100%;
-  // background-color: #323745;
   .title {
     background-color:  #2e2f32;
     text-align: center;
