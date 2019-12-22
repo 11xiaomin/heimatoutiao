@@ -1,8 +1,8 @@
 <template>
   <el-card>
-      <bread-crumd slot="header">
+      <bread-crumb slot="header">
       <template slot="title">素材管理</template>
-      </bread-crumd>
+      </bread-crumb>
   </el-card>
 </template>
 
