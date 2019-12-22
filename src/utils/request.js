@@ -2,6 +2,7 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
+import JSONBig from 'json-bigint'
 // 请求拦截器
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值黑马头条的默认地址
 axios.interceptors.request.use(function (config) {
@@ -15,6 +16,10 @@ axios.interceptors.request.use(function (config) {
 }, function () {
   // 失败
 })
+// 后台数据到达响应拦截之前走的一个函数
+axios.defaults.transformResponse = [function (data) {
+  return JSONBig.parse(data)
+}]
 // 相应拦截
 axios.interceptors.response.use(function (response) {
   // 成功
@@ -28,14 +33,15 @@ axios.interceptors.response.use(function (response) {
   let message = ''
   switch (status) {
     case 400:
-      message = '手机号或者验证码不正确'
+      message = '请求参数错误'
       break
     case 403:
-      message = 'refresh_token未携带或已过期'
-      //   window.localStorage.removeItem('use-token')
+      // message = 'refresh_token未携带或已过期'
+      window.localStorage.removeItem('use-token')
       router.push('/login')
       break
     case 401:
+      window.localStorage.removeItem('use-token')
       message = 'token过期或未传'
       break
     case 404:
@@ -48,5 +54,7 @@ axios.interceptors.response.use(function (response) {
       break
   }
   Message({ type: 'warning', message })// 提示消息
+
+  return Promise.reject(error)
 })
 export default axios
