@@ -19,6 +19,9 @@ const routes = [
       // path: '/home/comment',
       path: 'comment',
       component: () => import('../views/comment/index.vue')
+    }, {
+      path: 'material',
+      component: () => import('../views/material')
     }]
   },
   {
