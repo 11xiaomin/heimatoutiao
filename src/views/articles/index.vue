@@ -6,7 +6,7 @@
       </bread-crumb>
       <el-row class="searchTool">
         <span>文章状态</span>
-        <el-radio-group v-model="formData.status">
+        <el-radio-group @change="changeCondition" v-model="formData.status">
           <el-radio class="all" :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
           <el-radio :label="1">待审核</el-radio>
@@ -16,13 +16,13 @@
       </el-row>
       <el-row class="searchTool">
         <span style="margin-right:15px">频道列表</span>
-        <el-select v-model="formData.channels">
+        <el-select @change="changeCondition" v-model="formData.channels">
           <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-row>
       <el-row class="searchTool">
         <span style="margin-right:15px">时间选择</span>
-        <el-date-picker
+        <el-date-picker @change="changeCondition"  value-format="yyyy-MM-dd"
           v-model="formData.dayeRange"
           type="daterange"
           range-separator="-"
@@ -117,6 +117,15 @@ export default {
     }
   },
   methods: {
+    changeCondition () {
+      let params = {
+        status: this.formData.status === 5 ? null : this.formData.status,
+        channel_id: this.formData.channel_id,
+        begin_pubdate: this.formData.dateRange.length > 0 ? this.formData.dateRange[0] : null,
+        end_pubdate: this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null
+      }
+      this.getArticles(params)
+    },
     getChannel () {
       this.$axios({
         url: '/channels'
