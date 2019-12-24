@@ -18,7 +18,7 @@ axios.interceptors.request.use(function (config) {
 })
 // 后台数据到达响应拦截之前走的一个函数
 axios.defaults.transformResponse = [function (data) {
-  return JSONBig.parse(data)
+  return data ? JSONBig.parse(data) : {}
 }]
 // 相应拦截
 axios.interceptors.response.use(function (response) {
@@ -26,9 +26,9 @@ axios.interceptors.response.use(function (response) {
   return response.data ? response.data : {}// 为了解决data不存在是，then中读取数据报错问题
 }, function (error) {
   // 失败
-//   1.获取状态码
-// 2.根据状态码的不同来进行提示
-// 如果同样的状态码，但是不同意思，需要通过请求地址来判断是哪个的响应   请求地址+状态码一起来判断怎么处理
+  //   1.获取状态码
+  // 2.根据状态码的不同来进行提示
+  // 如果同样的状态码，但是不同意思，需要通过请求地址来判断是哪个的响应   请求地址+状态码一起来判断怎么处理
   let status = error.response.status
   let message = ''
   switch (status) {

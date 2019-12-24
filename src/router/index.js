@@ -18,11 +18,14 @@ const routes = [
     }, {
       // path: '/home/comment',
       path: 'comment',
-      component: () => import('../views/comment/index.vue')
+      component: () => import('../views/comment')
     }, {
       // path: '/home/material',
       path: 'material',
-      component: () => import('../views/material/index.vue')
+      component: () => import('../views/material')
+    }, {
+      path: 'articles',
+      component: () => import('../views/articles')
     }]
   },
   {
