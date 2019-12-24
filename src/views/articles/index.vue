@@ -36,21 +36,24 @@
         <span>共找到条符合条件的内容</span>
       </el-row>
       <el-row
-        v-for="item in 100"
-        :key="item"
+        v-for="item in list"
+        :key="item.id.toString()"
         type="flex"
         justify="space-between"
         class="article-item"
       >
         <el-col :span="10">
           <el-row type="flex">
-            <img class="image" src="../../assets/img/404.png" alt />
+            <img class="image" :src="item.cover.images.length?item.cover.images[0]: headerImg" alt />
             <div
               style="height:100px;display:flex;flex-direction:column;justify-content:space-between"
             >
-              <span>纷纷回家和公积金</span>
-              <el-tag style="width:60px">标签一</el-tag>
-              <span style="color:#999;font-size:12px">2019-12-24 17:55:06</span>
+              <span>{{item.title}}</span>
+              <el-tag
+                :type="item.status | filterType"
+                style="width:60px"
+              >{{item.status | filterStatus}}</el-tag>
+              <span style="color:#999;font-size:12px">{{item.pubdate}}</span>
             </div>
           </el-row>
         </el-col>
@@ -78,7 +81,39 @@ export default {
         channels: null,
         dateRange: []
       },
-      channels: [] // 接收频道
+      channels: [], // 接收频道
+      list: [],
+      headerImg: require('../../assets/img/header.jpg')
+    }
+  },
+  filters: {
+    filterStatus (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+        default:
+          break
+      }
+    },
+    filterType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+        default:
+          break
+      }
     }
   },
   methods: {
@@ -88,10 +123,19 @@ export default {
       }).then(result => {
         this.channels = result.data.channels // 获取频道数据
       })
+    },
+    // 获取文章列表数据
+    getArticles () {
+      this.$axios({
+        url: '/articles' // 请求地址
+      }).then(result => {
+        this.list = result.data.results // 接收文章列表数据
+      })
     }
   },
   created () {
     this.getChannel()
+    this.getArticles()
   }
 }
 </script>
@@ -108,7 +152,7 @@ export default {
 }
 .article-item {
   margin-top: 20px;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #f2f3f5;
   .image {
     width: 180px;
