@@ -4,7 +4,8 @@
       <div class="select-img-list">
         <!-- 循环生成选择列表 -->
         <el-card class="img-card" v-for="item in list" :key="item.id">
-          <img :src="item.url" alt />
+            <!-- 点击图片时调用方法，将图片地址传出去 -->
+          <img @click="clickImg(item.url)" :src="item.url" alt />
         </el-card>
       </div>
       <el-row type="flex" justify="center">
@@ -36,6 +37,11 @@ export default {
     }
   },
   methods: {
+    //   点击图片触发
+    clickImg (url) {
+      // 需要将url地址传出去，使用$emit 自定义事件携带参数
+      this.$emit('selectOneImg', url)
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       this.getAllImg()

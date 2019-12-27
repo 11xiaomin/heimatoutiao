@@ -1,11 +1,12 @@
 <template>
   <div class="cover-image">
       <!-- 根据封面的images长度 进行渲染 一个或者三个或者不渲染 -->
-      <div @click="openDialog" v-for="(item,index) in list" :key="index" class="cover-item">
+      <div @click="openDialog(index)" v-for="(item,index) in list" :key="index" class="cover-item">
           <img :src="item ? item : defultImg" alt="">
       </div>
       <el-dialog :visible="dialogVisible" @close="closeDialog">
-          <select-image></select-image>
+          <!-- 监听谁的事件就在谁标签上写监听 -->
+          <select-image @selectOneImg='receiveImg'></select-image>
       </el-dialog>
   </div>
 </template>
@@ -16,11 +17,18 @@ export default {
   data () {
     return {
       dialogVisible: false, // 控制弹层打开关闭的变量
-      defultImg: require('../../assets/img/pic_bg.png')
+      defultImg: require('../../assets/img/pic_bg.png'),
+      selectIndex: -1
     }
   },
   methods: {
-    openDialog () {
+    //   接收方法:接收到数据之后发现list为props数据，要想修改需要再次传递
+    receiveImg (img) {
+      this.$emit('clickOneImg', img, this.seleceIndex)// 再次触发一个自定义事件
+      this.closeDialog()// 直接关闭弹层
+    },
+    openDialog (index) {
+      this.seleceIndex = index// 记住点击的下标
       this.dialogVisible = true// 打开弹层
     },
     closeDialog () {

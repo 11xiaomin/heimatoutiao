@@ -25,7 +25,7 @@
         </el-radio-group>
       </el-form-item>
       <!-- 放置一个封面组件 -->
-      <cover-image :list="formData.cover.images"></cover-image>
+      <cover-image @clickOneImg="receiveImg" :list="formData.cover.images"></cover-image>
       <el-form-item prop="channel_id" label="频道">
         <el-select v-model="formData.channel_id">
           <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -94,6 +94,20 @@ export default {
     //   }
   },
   methods: {
+    receiveImg (img, index) {
+      // 接收到数据之后修改images数组，但是是数组，
+      // 有地址，有索引
+      // this.formData.cover.images[index] = img // 直接修改数据不可以
+      // 数组变成新数组就会变成响应式视图   push/pop/shift/unshift/slice
+      // this.formData.cover.images = this.formData.cover.images.map(function (item, i) {
+      //   if (i === index) {
+      //     return img
+      //   } else {
+      //     return item
+      //   }
+      // })
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? img : item)
+    },
     // 监控嵌套对象中的值（2）
     // 切换类型时触发
     changeType () {
