@@ -14,23 +14,25 @@
         <el-input v-model="formData.title" style="width:60%"></el-input>
       </el-form-item>
       <el-form-item prop="content" label="内容">
-        <quill-editor style="height:300px" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
+        <quill-editor style="height:300px" v-model="formData.content"></quill-editor>
       </el-form-item>
-      <el-form-item prop="type" label="封面" style="margin-top:100px">
-        <el-radio-group @click="changeType" v-model="formData.cover.type">
+      <el-form-item prop="type" label="封面" style="margin-top:140px">
+        <el-radio-group @change="changeType" v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
           <el-radio :label="-1">自动</el-radio>
         </el-radio-group>
       </el-form-item>
+      <!-- 放置一个封面组件 -->
+      <cover-image :list="formData.cover.images"></cover-image>
       <el-form-item prop="channel_id" label="频道">
         <el-select v-model="formData.channel_id">
           <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="publishArticle()" type="primary">发布</el-button>
+        <el-button @change="publishArticle()" type="primary">发布</el-button>
         <el-button @click="publishArticle(true)">存入草稿</el-button>
       </el-form-item>
     </el-form>
@@ -79,9 +81,22 @@ export default {
           }
         }
       }
-    },
+    }
     // 监控嵌套对象中的值（1）
-    'formData.cover.type': function () {
+    //   'formData.cover.type': function () {
+    //     if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //       this.formData.cover.images = []
+    //     } else if (this.formData.cover.type === 1) {
+    //       this.formData.cover.images = ['']
+    //     } else if (this.formData.cover.type === 3) {
+    //       this.formData.cover.images = ['', '', '']
+    //     }
+    //   }
+  },
+  methods: {
+    // 监控嵌套对象中的值（2）
+    // 切换类型时触发
+    changeType () {
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         this.formData.cover.images = []
       } else if (this.formData.cover.type === 1) {
@@ -89,13 +104,7 @@ export default {
       } else if (this.formData.cover.type === 3) {
         this.formData.cover.images = ['', '', '']
       }
-    }
-  },
-  methods: {
-    // 监控嵌套对象中的值（2）
-    // changeType () {
-    //   alert(this.formData.cover.type)
-    // },
+    },
     // 获取频道
     getChannel () {
       this.$axios({
@@ -151,6 +160,7 @@ export default {
       }).then(result => {
         this.formData = result.data // 将指定文章数据给data数据
       })
+      // }
     }
   },
   created () {
