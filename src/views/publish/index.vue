@@ -17,7 +17,7 @@
         <quill-editor style="height:300px" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
       </el-form-item>
       <el-form-item prop="type" label="封面" style="margin-top:100px">
-        <el-radio-group v-model="formData.cover.type">
+        <el-radio-group @click="changeType" v-model="formData.cover.type">
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
           <el-radio :label="0">无图</el-radio>
@@ -45,15 +45,19 @@ export default {
       formData: {
         title: '', // 标题
         content: '', // 内容
-        cover: {// 封面
+        cover: {
+          // 封面
           type: 0, // 类型
           images: [] // 图片地址
         },
-        channel_id: null// 频道id
+        channel_id: null // 频道id
       },
       publishRules: {
         // 校验规则
-        title: [{ required: true, message: '标题内容不能为空' }, { min: 5, max: 30, message: '标题长度为5-30字符之间' }],
+        title: [
+          { required: true, message: '标题内容不能为空' },
+          { min: 5, max: 30, message: '标题长度为5-30字符之间' }
+        ],
         content: [{ required: true, message: '文章内容不能为空' }],
         channel_id: [{ required: true, message: '频道分类不能为空' }]
       }
@@ -63,20 +67,35 @@ export default {
   watch: {
     $route: function (to, from) {
       if (Object.keys(to.params).length) {
-
+        this.getArticleById(to.params.articleId) // 重新拉取数据
       } else {
         this.formData = this.formData = {
           title: '', // 标题
           content: '', // 内容
-          cover: {// 封面
+          cover: {
+            // 封面
             type: 0, // 类型
             images: [] // 图片地址
           }
         }
       }
+    },
+    // 监控嵌套对象中的值（1）
+    'formData.cover.type': function () {
+      if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+        this.formData.cover.images = []
+      } else if (this.formData.cover.type === 1) {
+        this.formData.cover.images = ['']
+      } else if (this.formData.cover.type === 3) {
+        this.formData.cover.images = ['', '', '']
+      }
     }
   },
   methods: {
+    // 监控嵌套对象中的值（2）
+    // changeType () {
+    //   alert(this.formData.cover.type)
+    // },
     // 获取频道
     getChannel () {
       this.$axios({
@@ -87,7 +106,7 @@ export default {
     },
     // 发布文章
     publishArticle (draft) {
-      this.$refs.publishForm.validate((isOK) => {
+      this.$refs.publishForm.validate(isOK => {
         if (isOK) {
           let { articleId } = this.$route.params
           this.$axios({
@@ -96,7 +115,7 @@ export default {
             params: { draft },
             data: this.formData
           }).then(result => {
-          // 新增成功，应该去内容列表
+            // 新增成功，应该去内容列表
             this.$router.push('/home/articles')
           })
           // if (articleId) {
