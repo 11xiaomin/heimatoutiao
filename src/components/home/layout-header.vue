@@ -8,12 +8,12 @@
       <el-col :span="4" class="right">
         <el-row type="flex" justify="end" align="middle">
           <img :src="userInfo.photo?userInfo.photo:defaultImg" alt />
-          <el-dropdown @command='handle'>
+          <el-dropdown @command="handle">
             <span>{{userInfo.name}}</span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command='gr'>个人信息</el-dropdown-item>
-              <el-dropdown-item command='git'>git地址</el-dropdown-item>
-              <el-dropdown-item command='tc'>退出</el-dropdown-item>
+              <el-dropdown-item command="gr">个人信息</el-dropdown-item>
+              <el-dropdown-item command="git">git地址</el-dropdown-item>
+              <el-dropdown-item command="tc">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-row>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -31,15 +32,23 @@ export default {
     }
   },
   created () {
-    // 查询数据，首先要用axios，用this.$axios()
-    this.$axios({
-      url: '/user/profile'
-    }).then(result => {
-      // console.log(result.data)
-      this.userInfo = result.data // 获取用户个人信息
+    this.getUserInfo()
+    // 实例创建完毕，立刻监听
+    eventBus.$on('updateUserInfoSuccess', () => {
+      // alert('1')
+      this.getUserInfo()
     })
   },
   methods: {
+    getUserInfo () {
+      // 查询数据，首先要用axios，用this.$axios()
+      this.$axios({
+        url: '/user/profile'
+      }).then(result => {
+        // console.log(result.data)
+        this.userInfo = result.data // 获取用户个人信息
+      })
+    },
     handle (command) {
       // alert(1)
       if (command === 'tc') {
