@@ -32,7 +32,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @change="publishArticle()" type="primary">发布</el-button>
+        <el-button @click="publishArticle()" type="primary">发布</el-button>
         <el-button @click="publishArticle(true)">存入草稿</el-button>
       </el-form-item>
     </el-form>

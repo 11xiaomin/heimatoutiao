@@ -76,15 +76,16 @@ export default {
       })
     },
     uploadImg (params) {
-      this.loading = true
+      this.loading = true// 打开进度条
       let form = new FormData()
-      form.append('image', params.file)
+      form.append('image', params.file)// 添加文件到formData
       this.$axios({
         method: 'post',
         url: '/user/images',
         data: form
       }).then(result => {
-        this.loading = false
+        // 说明已经上传成功了一张图片
+        this.loading = false// 关闭进度条
         this.getAllMaterial()
       })
     },
